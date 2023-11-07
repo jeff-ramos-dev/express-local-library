@@ -1,0 +1,14 @@
+<h1><%= title %></h1>
+<ul>
+    <% if (genre_list.length > 0) { %>
+        <% for (const genre of genre_list) { %>
+            <li>
+                <a href=<%= genre.url %>>
+                    <%= genre.name%> 
+                </a>
+            </li>
+        <% } %>
+    <% } else { %>
+        <li>There are no genres.</li>
+    <% } %>
+</ul>
