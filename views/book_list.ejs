@@ -1,0 +1,14 @@
+<h1><%= title %></h1>
+<ul>
+    <% if (book_list.length > 0) { %>
+        <% for (const book of book_list) { %>
+            <li>
+                <a href=<%= book.url %>>
+                    <%= book.title %> | <%= book.author.name %>
+                </a>
+            </li>
+        <% } %>
+    <% } else { %>
+        <li>There are no books.</li>
+    <% } %>
+</ul>

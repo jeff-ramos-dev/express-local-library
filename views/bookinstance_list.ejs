@@ -1,0 +1,25 @@
+<h1><%= title %></h1>
+<ul>
+    <% if (bookinstance_list.length > 0) { %>
+        <% for (const val of bookinstance_list) { %>
+            <li>
+                <a href=<%= val.url %>>
+                    <%= val.book.title %> :
+                    <%= val.imprint %> -
+                    <% if (val.status == 'Available') { %>
+                        <span class="text-success"><%= val.status %></span>
+                    <% } else if (val.status == 'Maintenance') { %>
+                        <span class="text-danger"><%= val.status %></span>
+                    <% } else { %>
+                        <span class="text-warning"><%= val.status %></span>
+                    <% } %>
+                    <% if (val.status !== 'Available') { %>
+                        <span>Due: <%= val.due_back_formatted %></span>
+                    <% } %>
+                </a>
+            </li>
+        <% } %>
+    <% } else { %>
+        <li>There are no book copies in this library</li>
+    <% } %>
+</ul>
