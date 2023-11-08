@@ -1,0 +1,98 @@
+<h1><%= title %></h1>
+
+<form action="" method="post">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input 
+            type="text" 
+            id="title" 
+            name="title"
+            class="form-control"
+            placeholder="Name of book"
+            required="true"
+            <%= locals.book ? value=book.title : value="" %>
+        />
+    </div>
+    <div class="form-group">
+        <label for="author">Author</label>
+        <select 
+            name="author" 
+            id="author" 
+            class="form-control"
+            type="select"
+            required="true"
+            placeholder="Select author"
+        >
+        <% authors.sort((a, b) => { %>
+            <% let textA = a.family_name.toUpperCase(); %>
+            <% let textB = b.family_name.toUpperCase(); %>
+            <% return (textA < textB) ? -1 : (textA > textB) ? 1 : 0; %>
+        <% }); %>
+        <% for (const author of authors) { %>
+            <% if (locals.book) { %>
+                <option 
+                    <% value=author._id %>
+                    <% selected=author._id.toString() === book.author._id.toString() ? "selected" : false %>
+                >#<%= author.name %>
+                </option>
+            <% } else { %>
+                <option <% value=author._id %>
+                >#<%= author.name %>
+                </option>
+            <% } %>
+        <% } %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="summary">Summary:</label>
+        <textarea 
+            name="summary" 
+            required="true" 
+            id="summary" 
+            cols="30" 
+            rows="10" 
+            class="form-control"
+            placeholder="Summary"
+        >#<% locals.book ? book.summary : "" %>
+        </textarea>
+    </div>
+    <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input 
+            type="text" 
+            id="isbn" 
+            name="isbn"
+            class="form-control" 
+            placeholder="ISBN13"
+            required="true"
+            value=<% locals.book ? book.isbn : "" %>
+        />
+    </div>
+    <div class="form-group">
+        <label for="">Genre:</label>
+        <div>
+            <% for (const genre of genres) { %>
+                <div style="display:inline; padding-right:10px">
+                    <input 
+                        type="checkbox" 
+                        name="genre"
+                        id=<%= genre._id %>
+                        class="checkbox-input"
+                        value=<%= genre._id %>
+                        checked=<%= genre.checked %>
+                    />
+                    <label for=<%= genre._id %>>#<%= genre.name %></label>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+    <% if (locals.errors) { %>
+        <ul>
+            <% for (const error of errors) { %>
+                <li><%= error.msg %></li>
+            <% } %>
+        </ul>
+    <% } %>
+</form>
