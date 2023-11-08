@@ -4,7 +4,7 @@
         <% for (const author of author_list) { %>
             <li>
                 <a href=<%= author.url %>>
-                    <%= author.name%> | <%= author.date_of_birth_formatted %> - <%= author.date_of_death_formatted %>)
+                    <%= author.name%> | (<%= author.lifespan %>)
                 </a>
             </li>
         <% } %>
