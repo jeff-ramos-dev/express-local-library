@@ -7,6 +7,20 @@
     "dev": "nodemon ./bin/www",
     "bash-server": "SET DEBUG=express-local-library:* & npm run dev"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "overrides": [
+      {
+        "files": ["*.ejs"],
+        "options": {
+          "formatOnSave": false
+        }
+      }
+    ]
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

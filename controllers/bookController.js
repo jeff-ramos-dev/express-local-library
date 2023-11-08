@@ -6,63 +6,70 @@ const BookInstance = require("../models/bookinstance");
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler(async (req, res, next) => {
-  // Get details of books, book instances, authors and genre counts (in parallel)
-  const [
-    numBooks,
-    numBookInstances,
-    numAvailableBookInstances,
-    numAuthors,
-    numGenres,
-  ] = await Promise.all([
-    Book.countDocuments({}).exec(),
-    BookInstance.countDocuments({}).exec(),
-    BookInstance.countDocuments({ status: "Available" }).exec(),
-    Author.countDocuments({}).exec(),
-    Genre.countDocuments({}).exec(),
-  ]);
+    // Get details of books, book instances, authors and genre counts (in parallel)
+    const [
+        numBooks,
+        numBookInstances,
+        numAvailableBookInstances,
+        numAuthors,
+        numGenres,
+    ] = await Promise.all([
+        Book.countDocuments({}).exec(),
+        BookInstance.countDocuments({}).exec(),
+        BookInstance.countDocuments({ status: "Available" }).exec(),
+        Author.countDocuments({}).exec(),
+        Genre.countDocuments({}).exec(),
+    ]);
 
-  res.render("index", {
-    title: "Local Library Home",
-    book_count: numBooks,
-    book_instance_count: numBookInstances,
-    book_instance_available_count: numAvailableBookInstances,
-    author_count: numAuthors,
-    genre_count: numGenres,
-    route: 'home.ejs'
-  });
+    res.render("index", {
+        title: "Local Library Home",
+        book_count: numBooks,
+        book_instance_count: numBookInstances,
+        book_instance_available_count: numAvailableBookInstances,
+        author_count: numAuthors,
+        genre_count: numGenres,
+        route: "home.ejs",
+    });
 });
 
 // Display a list of all Books.
 exports.book_list = asyncHandler(async (req, res, next) => {
-  const allBooks = await Book.find({}, "title author")
-    .sort({ title: 1 })
-    .populate("author")
-    .exec();
+    const allBooks = await Book.find({}, "title author")
+        .sort({ title: 1 })
+        .populate("author")
+        .exec();
 
-  res.render("index", { title: "Book List", book_list: allBooks, route: "book_list.ejs"});
+    res.render("index", {
+        title: "Book List",
+        book_list: allBooks,
+        route: "book_list.ejs",
+    });
 });
 
 // Display detail page for a specific book.
 exports.book_detail = asyncHandler(async (req, res, next) => {
-  // Get details of books, book instances for specific book
-  const [book, bookInstances] = await Promise.all([
-    Book.findById(req.params.id).populate("author").populate("genre").exec(),
-    BookInstance.find({ book: req.params.id }).exec(),
-  ]);
+    // Get details of books, book instances for specific book
+    const [book, bookInstances] = await Promise.all([
+        Book.findById(req.params.id)
+            .populate("author")
+            .populate("genre")
+            .exec(),
+        BookInstance.find({ book: req.params.id }).exec(),
+    ]);
 
-  if (book === null) {
-    // No results.
-    const err = new Error("Book not found");
-    err.status = 404;
-    return next(err);
-  }
+    if (book === null) {
+        // No results.
+        const err = new Error("Book not found");
+        err.status = 404;
+        return next(err);
+    }
 
-  res.render("index", {
-    title: book.title,
-    book: book,
-    book_instances: bookInstances,
-    route: "book_detail.ejs",
-  });
+    res.render("index", {
+        title: book.title,
+        book: book,
+        book_instances: bookInstances,
+        route: "book_detail.ejs",
+    });
 });
 
 // Display book create form on GET.
