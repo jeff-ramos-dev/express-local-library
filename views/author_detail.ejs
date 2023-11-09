@@ -1,5 +1,5 @@
 <h1>Author: <%= author.name %></h1>
-<p><%= author.date_of_birth %> - <%= author.date_of_death %></p>
+<p><%= author.lifespan %></p>
 
 <div class="book_list">
     <h4>Books</h4>
@@ -16,3 +16,7 @@
         <% } %>
     </dl>
 </div>
+<hr>
+<p>
+    <a href=<%= author.url+'/delete' %>>Delete author</a>
+</p>
