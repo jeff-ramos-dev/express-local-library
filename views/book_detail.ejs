@@ -5,11 +5,10 @@
 <p><strong>Genre: </strong>
     <% book.genre.forEach((val, index) => { %>
     <% console.log(val.name) %>
-        <a href=<%= val.url %>><%= val.name %>
+        <a href=<%= val.url %>><%= val.name %></a>
         <% if (index < book.genre.length - 1) { %>
-            <span>|,</span>
+            <span style="font-size: large">|</span>
         <% } %>
-        </a>
     <% }) %>
 </p>
 <div class="book-details">
@@ -36,5 +35,8 @@
 </div>
 <hr>
 <p>
-    <a href=<%= book.url+'/delete' %>>Delete book</a>
+    <a href=<%= book.url+'/update' %>>Update Book</a>
+</p>
+<p>
+    <a href=<%= book.url+'/delete' %>>Delete Book</a>
 </p>
