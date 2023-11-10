@@ -14,7 +14,9 @@
     "singleQuote": false,
     "overrides": [
       {
-        "files": ["*.ejs"],
+        "files": [
+          "*.ejs"
+        ],
         "options": {
           "formatOnSave": false
         }

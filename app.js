@@ -11,7 +11,9 @@ const catalogRouter = require("./routes/catalog"); // Import routes for 'catalog
 const app = express();
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.DB;
+const dev_db_url =
+    "mongodb+srv://jeramos409:X7xMalystryxx7X@jeffcluster.qfbutjz.mongodb.net/local_library?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {
