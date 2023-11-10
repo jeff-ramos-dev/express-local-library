@@ -2,6 +2,7 @@ const Author = require("../models/author");
 const Book = require("../models/book");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const debug = require("debug")("author");
 
 // Display list of all Authors.
 exports.author_list = asyncHandler(async (req, res, next) => {
@@ -23,6 +24,7 @@ exports.author_detail = asyncHandler(async (req, res, next) => {
 
     if (author === null) {
         // No results.
+        debug(`id not found on get: ${req.params.id}`);
         const err = new Error("Author not found");
         err.status = 404;
         return next(err);
@@ -110,6 +112,7 @@ exports.author_delete_get = asyncHandler(async (req, res, next) => {
 
     if (author === null) {
         // No results.
+        debug(`id not found on delete: ${req.params.id}`);
         res.redirect("/catalog/authors");
     }
 
@@ -152,6 +155,7 @@ exports.author_update_get = asyncHandler(async (req, res, next) => {
 
     if (author === null) {
         // No results
+        debug(`id not found on update: ${req.params.id}`);
         const err = new Error("author not found");
         err.status = 404;
         return next(err);
@@ -194,6 +198,7 @@ exports.author_update_post = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
+
             res.render("index", {
                 title: "Update Author",
                 author: author,

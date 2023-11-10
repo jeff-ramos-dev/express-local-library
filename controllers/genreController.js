@@ -22,6 +22,7 @@ exports.genre_detail = asyncHandler(async (req, res, next) => {
     ]);
     if (genre === null) {
         // No results.
+        debug(`id not found on get: ${req.params.id}`);
         const err = new Error("Genre not found");
         err.status = 404;
         return next(err);
@@ -93,6 +94,7 @@ exports.genre_delete_get = asyncHandler(async (req, res, next) => {
 
     if (genre === null) {
         // No results.
+        debug(`id not found on delete: ${req.params.id}`);
         res.redirect("/catalog/genres");
     }
 
@@ -134,6 +136,7 @@ exports.genre_update_get = asyncHandler(async (req, res, next) => {
 
     if (genre === null) {
         // No results
+        debug(`id not found on update: ${req.params.id}`);
         const err = new Error("Genre not found.");
         err.status = 404;
         return next(err);

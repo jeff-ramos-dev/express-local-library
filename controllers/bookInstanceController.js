@@ -22,6 +22,7 @@ exports.bookinstance_detail = asyncHandler(async (req, res, next) => {
 
     if (bookInstance === null) {
         // No results.
+        debug(`id not found on get: ${req.params.id}`);
         const err = new Error("Book copy not found");
         err.status = 404;
         return next(err);
@@ -103,6 +104,7 @@ exports.bookinstance_delete_get = asyncHandler(async (req, res, next) => {
 
     // if book instance doesn't exist, redirect to book instance list
     if (bookInstance === null) {
+        debug(`id not found on delete: ${req.params.id}`);
         res.redirect("/catalog/bookinstances");
     }
 
@@ -139,6 +141,7 @@ exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
 
     if (bookInstance === null) {
         // No results
+        debug(`id not found on update: ${req.params.id}`);
         const err = new Error("book instance not found");
         err.status = 404;
         return next(err);
