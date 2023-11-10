@@ -124,19 +124,10 @@ exports.book_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        const lastName = req.body.author.split(" ")[0].slice(0, -1);
-        const firstName = req.body.author.split(" ")[1];
-        console.log("firstname: ", firstName);
-        console.log("lastname: ", lastName);
-        const author = await Author.findOne({
-            first_name: firstName,
-            family_name: lastName,
-        });
-        console.log(author);
         // Create a Book object with escaped and trimmed data.
         const book = new Book({
             title: req.body.title,
-            author: author._id,
+            author: req.body.author,
             summary: req.body.summary,
             isbn: req.body.isbn,
             genre: req.body.genre,
