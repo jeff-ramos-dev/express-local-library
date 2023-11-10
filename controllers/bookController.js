@@ -329,6 +329,7 @@ exports.book_update_post = [
                 genres: allGenres,
                 book: book,
                 errors: errors.array(),
+                route: "book_form.ejs",
             });
             return;
         } else {
