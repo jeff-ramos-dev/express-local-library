@@ -95,10 +95,58 @@ exports.genre_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Genre update form on GET.
 exports.genre_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Genre update GET");
+    const genre = await Genre.findById(req.params.id);
+
+    if (genre === null) {
+        // No results
+        const err = new Error("Genre not found.");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("index", {
+        title: "Update Genre",
+        genre: req.body.genre,
+        route: "genre_form.ejs",
+    });
 });
 
 // Handle Genre update on POST.
-exports.genre_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Genre update POST");
-});
+exports.genre_update_post = [
+    // Validate and sanitize fields
+    body("name", "Name must not be empty")
+        .trim()
+        .isLength({ min: 3, max: 100 })
+        .escape(),
+
+    // Process request after validation and sanitization
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Genre object with escaped/trimmed data and old id.
+        const genre = new Genre({
+            name: req.body.name,
+            _id: req.params.id, // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+            res.render("index", {
+                title: "Update Genre",
+                genre: genre,
+                errors: errors.array(),
+                route: "genre_form.ejs",
+            });
+            return;
+        } else {
+            // Data from form is valid. Update the record.
+            const updatedGenre = await Genre.findByIdAndUpdate(
+                req.params.id,
+                genre
+            );
+            // Redirect to genre detail page.
+            res.redirect(updatedGenre.url);
+        }
+    }),
+];
