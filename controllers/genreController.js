@@ -2,6 +2,7 @@ const Genre = require("../models/genre");
 const Book = require("../models/book");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const debug = require("debug")("genre");
 
 // Display list of all Genre.
 exports.genre_list = asyncHandler(async (req, res, next) => {
